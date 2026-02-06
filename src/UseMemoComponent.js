@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useMemo} from 'react';
 
 const UseMemoComponent = () => {
-    const [list, setList] = useState([1, 3, 75, 80]);
+    const list = [1, 3, 75, 80];
 
     const listSum = useMemo(() => list.reduce((accumulator, currentValue) => accumulator + currentValue, 0), [list]);
     return (
