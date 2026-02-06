@@ -1,14 +1,48 @@
-import { useMemo} from 'react';
+import React, { useState, useMemo } from "react";
 
 const UseMemoComponent = () => {
-    const list = [1, 3, 75, 80];
+  const [list, setList] = useState([1, 3, 75, 80]);
+  const [newValue, setNewValue] = useState("");
 
-    const listSum = useMemo(() => list.reduce((accumulator, currentValue) => accumulator + currentValue, 0), [list]);
-    return (
-        <div>
-            <p>Список: {list.map((list) => <li>{list}</li> )}</p>
-            <p>Сума: {listSum} </p>
-        </div>
-    )
+  
+  const listSum = useMemo(() => {
+    return list.reduce((acc, curr) => acc + curr, 0);
+  }, [list]);
+
+  const addItem = () => {
+    if (newValue.trim() !== "" && !isNaN(newValue)) {
+      setList([...list, Number(newValue)]);
+      setNewValue("");
+    }
+  };
+
+  const removeItem = (index) => {
+    setList(list.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div>
+      <h2>Список:</h2>
+      <ul>
+        {list.map((item, index) => (
+          <li key={index}>
+            {item}{" "}
+            <button onClick={() => removeItem(index)}>Видалити</button>
+          </li>
+        ))}
+      </ul>
+
+      <input
+        type="number"
+        value={newValue}
+        onChange={(e) => setNewValue(e.target.value)}
+        placeholder="Додати число"
+      />
+      <button onClick={addItem}>Додати</button>
+
+      <p>Сума: {listSum}</p>
+    </div>
+  );
 };
+
 export default UseMemoComponent;
